@@ -1,5 +1,5 @@
 services:
-    task-tracker:
+    list-my-repos:
       image: "node:lts"
       container_name: "list-my-repos"
       user: "node"
