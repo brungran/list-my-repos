@@ -1,9 +1,10 @@
 <template>
   <main>
-    <HelloWorld />
+    <h1>List Repos</h1>
+    <Repos />
   </main>
 </template>
 
 <script setup>
-  import HelloWorld from '@/components/HelloWorld.vue'
+  import Repos from '@/components/Repos.vue'
 </script>
