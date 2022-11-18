@@ -5,6 +5,14 @@ export const useRepoStore = defineStore('repoStore', {
   state: () => ({
     repos: []
   }),
+  getters:{
+    archived(){
+      return this.repos.filter(repo => repo.archived)
+    },
+    active(){
+      return this.repos.filter(repo => !repo.archived)
+    }
+  },
   actions:{
     async list(){
       const octokit = new Octokit({
