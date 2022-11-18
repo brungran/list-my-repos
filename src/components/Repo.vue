@@ -1,5 +1,7 @@
 <template>
-    <p>{{repo.name}}</p>
+    <RouterLink :to="{name: 'commits', params: {name: repo.name}}">
+        {{repo.name}}
+    </RouterLink>
 </template>
 
 <script setup>
