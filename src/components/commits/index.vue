@@ -1,21 +1,24 @@
 <template>
     <RouterLink to="/">Go back</RouterLink>
-    <div>
-        <button @click="commits = alphabetical">Alphabetical Order</button>
+    <div v-if="this.commits.length > 0">
+        <div>
+            <button @click="commits = alphabetical">Alphabetical Order</button>
+        </div>
+        <div>
+            <button @click="commits = orderByDate">Order by Date</button>
+        </div>
+        <h3>Commits fetched:</h3>
+        <table>
+            <th>Message</th>
+            <th>Date and Time</th>
+            <th>Author</th>
+            
+            <tr :key="commit.id" v-for="commit in commits">
+                <Commit :commit="commit" />
+            </tr>
+        </table>
     </div>
-    <div>
-        <button @click="commits = orderByDate">Order by Date</button>
-    </div>
-    <h3>Commits fetched:</h3>
-    <table>
-        <th>Message</th>
-        <th>Date and Time</th>
-        <th>Author</th>
-        
-        <tr :key="commit.id" v-for="commit in commits">
-            <Commit :commit="commit" />
-        </tr>
-    </table>
+    <h3 v-else> No commits from {{currentUser}} found on this repository.</h3>
 
     <Pagination v-if="lastPage !==null" :currentPage="currentPage" :lastPage="lastPage" @page-click="fetchAnotherPage" />
 </template>
@@ -71,6 +74,9 @@
             },
             currentPage(){
                 return commitStore.currentPage
+            },
+            currentUser(){
+                return import.meta.env.VITE_GITHUB_USER
             }
         },
         methods: {

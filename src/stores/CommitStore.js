@@ -55,6 +55,9 @@ export const useCommitStore = defineStore('commitStore', {
           const link = res.headers.link.split(',').filter((link) => link.includes('rel=\"last\"'))[0]
           if(link) this.lastPage = Number(link.substr(link.indexOf('&page=')+6, link.indexOf('>') - (link.indexOf('&page=')+6)))
         }
+        else{
+          this.lastPage = null
+        }
         this.currentPage = Number(page)
         
         if(res.status === 200) this.commits = res.data
