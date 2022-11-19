@@ -9,8 +9,10 @@
         <button @click="repos = showArchivedOnly">Show archived repos only</button>
     </div>
 
+    <input type="text" placeholder="Search" v-model="searchValue">
+    
     <h3>Repos fetched:</h3>
-    <div :key="repo.id" v-for="repo in repos">
+    <div :key="repo.id" v-for="repo in search">
         <Repo :repo="repo" />
     </div>
 </template>
@@ -23,7 +25,8 @@
     export default{
         data(){
             return{
-                repos: []
+                repos: [],
+                searchValue: ''
             }
         },
         async created(){
@@ -42,6 +45,12 @@
             },
             showArchivedOnly(){
                 return repoStore.archived
+            },
+            search(){
+                if(this.searchValue.trim().length > 0){
+                    return this.repos.filter((repo) => repo.name.toLowerCase().includes(this.searchValue.trim().toLowerCase()))
+                }
+                return this.repos
             }
         }
     }
