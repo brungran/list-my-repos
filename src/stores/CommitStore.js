@@ -3,7 +3,9 @@ import { Octokit } from "@octokit/core"
 
 export const useCommitStore = defineStore('commitStore', {
   state: () => ({
-    commits: []
+    commits: [],
+    lastPage: null,
+    currentPage: null
   }),
   getters:{
     all(){
@@ -36,7 +38,7 @@ export const useCommitStore = defineStore('commitStore', {
     }
   },
   actions:{
-    async list(repo){
+    async list(repo, page = 1){
       const octokit = new Octokit({
         auth: import.meta.env.VITE_SOME_KEY
       })
@@ -44,11 +46,20 @@ export const useCommitStore = defineStore('commitStore', {
       try {
         const res = await octokit.request('GET /repos/'+import.meta.env.VITE_GITHUB_USER+'/'+repo+'/commits', {
           owner: import.meta.env.VITE_GITHUB_USER,
-          repo: repo
+          repo: repo,
+          per_page: 10,
+          page: page
         })
+
+        if(res.headers.link){
+          const link = res.headers.link.split(',').filter((link) => link.includes('rel=\"last\"'))[0]
+          if(link) this.lastPage = Number(link.substr(link.indexOf('&page=')+6, link.indexOf('>') - (link.indexOf('&page=')+6)))
+        }
+        this.currentPage = Number(page)
+        
         if(res.status === 200) this.commits = res.data
       } catch (error) {
-        this.commits = []
+          this.commits = []
         return error
       }
     }
