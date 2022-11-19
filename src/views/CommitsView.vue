@@ -4,5 +4,5 @@
 </template>
   
 <script setup>
-    import Commits from '@/components/Commits.vue'
+    import Commits from '@/components/commits/index.vue'
 </script>

@@ -19,7 +19,7 @@
 </template>
 
 <script>
-    import Commit from '@/components/Commit.vue'
+    import Commit from '@/components/commits/Commit.vue'
     import { useCommitStore } from '@/stores/CommitStore'
     import { useRoute } from 'vue-router';
     
@@ -40,7 +40,6 @@
         },
         computed:{
             alphabetical(){
-                console.log('alphabetical')
                 let alphabetical = this.commits
                 alphabetical = alphabetical.sort((a,b) => {
                     if(a.commit.message.toLowerCase() < b.commit.message.toLowerCase()) return -1
@@ -50,7 +49,6 @@
                 return alphabetical
             },
             orderByDate(){
-                console.log('orderByDate')
                 let orderByDate = this.commits
                 orderByDate = orderByDate.sort((a,b) => {
                     if(a.commit.author.date > b.commit.author.date) return -1

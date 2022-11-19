@@ -4,5 +4,5 @@
 </template>
 
 <script setup>
-  import Repos from '@/components/Repos.vue'
+  import Repos from '@/components/repos/index.vue'
 </script>

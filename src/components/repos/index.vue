@@ -15,10 +15,14 @@
     <div :key="repo.id" v-for="repo in search">
         <Repo :repo="repo" />
     </div>
+
+    <Pagination v-if="lastPage !==null" :currentPage="currentPage" :lastPage="lastPage" @page-click="fetchAnotherPage" />
+
 </template>
 
 <script>
-    import Repo from '@/components/Repo.vue'
+    import Repo from '@/components/repos/Repo.vue'
+    import Pagination from '@/components/Pagination.vue'
     import { useRepoStore } from '@/stores/RepoStore'
     const repoStore = useRepoStore()
     
@@ -34,7 +38,8 @@
             this.repos = repoStore.repos
         },
         components:{
-            Repo
+            Repo,
+            Pagination
         },
         computed:{
             showAll(){
@@ -51,6 +56,20 @@
                     return this.repos.filter((repo) => repo.name.toLowerCase().includes(this.searchValue.trim().toLowerCase()))
                 }
                 return this.repos
+            },
+            lastPage(){
+                return repoStore.lastPage
+            },
+            currentPage(){
+                return repoStore.currentPage
+            }
+        },
+        methods: {
+            async fetchAnotherPage(page){
+                if(this.currentPage !== page){
+                    await repoStore.list(page)
+                    this.repos = this.showAll
+                }
             }
         }
     }
