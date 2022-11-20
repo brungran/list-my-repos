@@ -1,5 +1,4 @@
 <template>
-      <h1>List commits</h1>
       <Commits />
 </template>
   

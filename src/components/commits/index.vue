@@ -1,30 +1,36 @@
 <template>
-    <RouterLink to="/">Go back</RouterLink>
+    <Button>
+        <RouterLink to="/">Go back</RouterLink>
+    </Button>
+
+    <div class="flex justify-items-start space-x-4 flex-start mt-5">
+        <Button @click="commits = alphabetical">Order Alphabetically</Button>
+        <Button @click="commits = orderByDate">Order by Date</Button>
+    </div>
+
+    <h2 class="text-xl mt-4">Current total of results: {{this.commits.length}}</h2>
+    
     <div v-if="this.commits.length > 0">
-        <div>
-            <button @click="commits = alphabetical">Alphabetical Order</button>
-        </div>
-        <div>
-            <button @click="commits = orderByDate">Order by Date</button>
-        </div>
-        <h3>Commits fetched:</h3>
-        <table>
-            <th>Message</th>
-            <th>Date and Time</th>
-            <th>Author</th>
+        <table class="mt-4 w-full table-fixed">
+            <th class="text-left" colspan="3">Message</th>
+            <th class="text-right pr-1" colspan="1">Date and Time</th>
+            <th class="text-left pl-1" colspan="1">Author</th>
             
-            <tr :key="commit.id" v-for="commit in commits">
+            <tr :key="commit.id" v-for="commit in commits" class="hover:bg-gray-200">
                 <Commit :commit="commit" />
             </tr>
         </table>
+        <div class="flex justify-end space-x-2 mt-4 text-sm mr-2">
+            <Pagination v-if="lastPage !==null" :currentPage="currentPage" :lastPage="lastPage" @page-click="fetchAnotherPage" />
+        </div>
     </div>
-    <h3 v-else> No commits from {{currentUser}} found on this repository.</h3>
+    <h3 v-else class="mt-2"> No commits from {{currentUser}} found on this repository.</h3>
 
-    <Pagination v-if="lastPage !==null" :currentPage="currentPage" :lastPage="lastPage" @page-click="fetchAnotherPage" />
 </template>
 
 <script>
     import Commit from '@/components/commits/Commit.vue'
+    import Button from '@/components/Button.vue'
     import Pagination from '@/components/Pagination.vue'
     import { useCommitStore } from '@/stores/CommitStore'
     import { useRoute } from 'vue-router';
@@ -48,6 +54,7 @@
         },
         components:{
             Commit,
+            Button,
             Pagination
         },
         computed:{
