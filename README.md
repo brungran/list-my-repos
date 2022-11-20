@@ -1,29 +1,42 @@
-# .
+This is a simple app to list a user's repositories and it's commits.
 
-This template should help get you started developing with Vue 3 in Vite.
+## Running the Dev Version
+Clone this repository and edit the *.env* file accordingly.
 
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
+### Running WITH Docker
+Start a temporary container:
+```sh
+docker run --rm --volume "$PWD:/usr/src/app" --workdir "/usr/src/app" --publish 80:5173 -it node:lts bash
+```
+Install the project's dependencies:
 ```sh
 npm install
 ```
+You can choose to exit the container pressing *ctrl+c* or to run the project with the temporary container.
 
-### Compile and Hot-Reload for Development
-
+#### If You Chose to Run the Project With the Temporary Container
+Run:
 ```sh
 npm run dev
 ```
+You should be able to use the app by accessing *localhost* in your browser.
 
-### Compile and Minify for Production
-
+#### If You Didn't Choose to Run the Project With the Temporary Container
+Press *ctrl+c*.
+Run:
 ```sh
-npm run build
+docker compose up
 ```
+You should be able to use the app by accessing *localhost* in your browser.
+
+### Running WITHOUT Docker
+Install the dependencies with:
+```sh
+npm install
+```
+Run the project with:
+```sh
+npm run dev
+```
+You should be able to use the app by accessing *localhost:5173* in your browser.
+
